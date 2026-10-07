@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>13.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>BossRelics</AssemblyName>
+    <RootNamespace>BossRelicsMod</RootNamespace>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <Sts2GameDir Condition="'$(STS2_GAME_DIR)' != ''">$(STS2_GAME_DIR)</Sts2GameDir>
+    <Sts2GameDir Condition="'$(Sts2GameDir)' == ''">..\..\..\Game\Steam\steamapps\common\Slay the Spire 2</Sts2GameDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Queen's relic is intentionally shelved for a later release. -->
+    <Compile Remove="QueensPuppetStrings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="sts2">
+      <HintPath>$(Sts2GameDir)\data_sts2_windows_x86_64\sts2.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GodotSharp">
+      <HintPath>$(Sts2GameDir)\data_sts2_windows_x86_64\GodotSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(Sts2GameDir)\data_sts2_windows_x86_64\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

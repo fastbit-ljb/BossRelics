@@ -1,0 +1,11 @@
+{
+  "id": "BossRelics",
+  "name": "Boss Relics",
+  "author": "fastbit-ljb",
+  "description": "Adds exclusive relic drops for nine bosses: Vantom, Ceremonial Beast, The Kin, Lagavulin Matriarch, Waterfall Giant, Soul Fysh, The Insatiable, Knowledge Demon, and Kaiser Crab. 为九名首领新增专属遗物掉落：墨影幻灵、仪式兽、同族小队、乐加维林族母、瀑布巨兽、灵魂异鱼、无厌沙虫、知识恶魔和凯撒蟹。",
+  "version": "0.9.2",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}

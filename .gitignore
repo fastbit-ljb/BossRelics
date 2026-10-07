@@ -1,0 +1,8 @@
+bin/
+obj/
+build/
+*.log
+references/
+tools/capture_project/
+tools/__pycache__/
+*.pdb
