@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -24,6 +25,33 @@ namespace BossRelicsMod;
 public sealed class ForbiddenTome : RelicModel
 {
     private const string PenaltyDamageKey = "PenaltyDamage";
+
+    private static readonly MethodInfo? DamageWithCardPlayMethod = typeof(CreatureCmd).GetMethod(
+        nameof(CreatureCmd.Damage),
+        BindingFlags.Public | BindingFlags.Static,
+        null,
+        [
+            typeof(PlayerChoiceContext),
+            typeof(Creature),
+            typeof(DamageVar),
+            typeof(Creature),
+            typeof(CardModel),
+            typeof(CardPlay),
+        ],
+        null);
+
+    private static readonly MethodInfo? DamageWithoutCardPlayMethod = typeof(CreatureCmd).GetMethod(
+        nameof(CreatureCmd.Damage),
+        BindingFlags.Public | BindingFlags.Static,
+        null,
+        [
+            typeof(PlayerChoiceContext),
+            typeof(Creature),
+            typeof(DamageVar),
+            typeof(Creature),
+            typeof(CardModel),
+        ],
+        null);
 
     public override RelicRarity Rarity => RelicRarity.Event;
 
@@ -94,12 +122,27 @@ public sealed class ForbiddenTome : RelicModel
         }
 
         Flash();
-        await CreatureCmd.Damage(
-            choiceContext,
-            Owner.Creature,
-            (DamageVar)DynamicVars[PenaltyDamageKey],
-            null,
-            null,
-            null);
+        await DealPenaltyDamage(choiceContext);
+    }
+
+    private async Task DealPenaltyDamage(PlayerChoiceContext choiceContext)
+    {
+        DamageVar damage = (DamageVar)DynamicVars[PenaltyDamageKey];
+        MethodInfo method = DamageWithCardPlayMethod
+            ?? DamageWithoutCardPlayMethod
+            ?? throw new MissingMethodException(
+                typeof(CreatureCmd).FullName,
+                nameof(CreatureCmd.Damage));
+
+        object?[] arguments = method == DamageWithCardPlayMethod
+            ? [choiceContext, Owner.Creature, damage, null, null, null]
+            : [choiceContext, Owner.Creature, damage, null, null];
+
+        if (method.Invoke(null, arguments) is not Task task)
+        {
+            throw new InvalidOperationException("CreatureCmd.Damage did not return a Task.");
+        }
+
+        await task;
     }
 }

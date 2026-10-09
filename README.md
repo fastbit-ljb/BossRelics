@@ -4,10 +4,11 @@ Adds predetermined exclusive relic rewards to specific Slay the Spire 2 bosses.
 
 为《杀戮尖塔2》的九名首领添加固定掉落的专属遗物。专属遗物作为额外奖励出现，不会替换原版首领遗物。
 
-## v0.9.2
+## v0.9.3
 
 - No game-version or Steam-branch restriction; intended for all currently available versions.
 - Built against the latest public-beta damage-modifier API.
+- Fixed Forbidden Tome freezing the combat at the end of turn one by selecting the correct damage-command overload at runtime on both current branches.
 
 - Vantom drops **Slippery Sticky Substance / 滑溜的粘稠物质**.
 - At the start of each combat, its owner gains 1 stack of the vanilla Slippery power.
